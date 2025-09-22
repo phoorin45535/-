@@ -3,18 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <title>โปรแกรมรวมตัวเลข</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
         }
+
         #date-container {
             text-align: center;
+            margin-bottom: 20px;
         }
+
         #current-date {
-            font-size: 3em;
+            font-size: 1.5em; /* ปรับขนาดให้พอดีกับมือถือ */
             font-weight: bold;
             color: #4CAF50;
-            margin: 20px 0;
+        }
+
+        h1, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            width: 50px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .input-group input[type="number"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: right;
+            -moz-appearance: textfield; /* ซ่อนปุ่มขึ้น/ลงใน Firefox */
+        }
+
+        /* ซ่อนปุ่มขึ้น/ลงใน Chrome, Safari, Edge */
+        .input-group input[type="number"]::-webkit-outer-spin-button,
+        .input-group input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .subtotal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .buttons-container {
+            text-align: center;
+            margin-top: 20px;
+            /* ใช้ Flexbox เพื่อจัดเรียงปุ่มและเพิ่มระยะห่าง */
+            display: flex;
+            justify-content: center; /* จัดให้อยู่กึ่งกลาง */
+            gap: 20px; /* เพิ่มช่องว่างระหว่างปุ่ม 20px */
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* กำหนดสีของปุ่ม "คำนวณผลรวม" */
+        #calculate-btn {
+            background-color: #007BFF;
+        }
+
+        #calculate-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* กำหนดสีของปุ่ม "รีเซ็ตทั้งหมด" */
+        #reset-btn {
+            background-color: #dc3545; /* สีแดง */
+        }
+
+        #reset-btn:hover {
+            background-color: #c82333; /* สีแดงเข้มขึ้นเมื่อเอาเมาส์ไปวาง */
+        }
+
+        .results-section {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .results-section p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .results-section hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 15px 0;
+        }
+
+        .box-calculation label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .box-calculation input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        /* Responsive grid for input fields */
+        @media (min-width: 601px) {
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -25,247 +168,151 @@
 
     <h1>โปรแกรมรวมตัวเลข</h1>
 
-    <table border="1">
-      <tr>
-        <td>1</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>11</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>21</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>31</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>41</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>51</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>61</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>71</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>81</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>12</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>22</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>32</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>42</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>52</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>62</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>72</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>82</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>13</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>23</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>33</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>43</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>53</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>63</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>73</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>83</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>14</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>24</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>34</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>44</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>54</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>64</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>74</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>84</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>15</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>25</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>35</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>45</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>55</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>65</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>75</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>85</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>16</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>26</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>36</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>46</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>56</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>66</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>76</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>86</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>17</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>27</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>37</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>47</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>57</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>67</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>77</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>87</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>18</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>28</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>38</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>48</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>58</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>68</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>78</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>88</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>19</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>29</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>39</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>49</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>59</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>69</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>79</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>89</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td><input type="number" class="number-input group-1"></td>
-        <td>20</td>
-        <td><input type="number" class="number-input group-2"></td>
-        <td>30</td>
-        <td><input type="number" class="number-input group-3"></td>
-        <td>40</td>
-        <td><input type="number" class="number-input group-4"></td>
-        <td>50</td>
-        <td><input type="number" class="number-input group-5"></td>
-        <td>60</td>
-        <td><input type="number" class="number-input group-6"></td>
-        <td>70</td>
-        <td><input type="number" class="number-input group-7"></td>
-        <td>80</td>
-        <td><input type="number" class="number-input group-8"></td>
-        <td>90</td>
-        <td><input type="number" class="number-input group-9"></td>
-      </tr>
-      <tr>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-1">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-2">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-3">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-4">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-5">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-6">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-7">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-8">0</span></td>
-        <td>**รวมย่อย**</td>
-        <td><span id="subtotal-9">0</span></td>
-      </tr>
-    </table>
+    <div class="container">
+        <div class="grid-container">
+            <div class="column-1">
+                <div class="input-group"><label>1</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>2</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>3</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>4</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>5</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>6</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>7</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>8</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>9</label><input type="number" class="number-input group-1"></div>
+                <div class="input-group"><label>10</label><input type="number" class="number-input group-1"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-1">0</span></div>
+            </div>
+            <div class="column-2">
+                <div class="input-group"><label>11</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>12</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>13</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>14</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>15</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>16</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>17</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>18</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>19</label><input type="number" class="number-input group-2"></div>
+                <div class="input-group"><label>20</label><input type="number" class="number-input group-2"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-2">0</span></div>
+            </div>
+            <div class="column-3">
+                <div class="input-group"><label>21</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>22</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>23</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>24</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>25</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>26</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>27</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>28</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>29</label><input type="number" class="number-input group-3"></div>
+                <div class="input-group"><label>30</label><input type="number" class="number-input group-3"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-3">0</span></div>
+            </div>
+             <div class="column-4">
+                <div class="input-group"><label>31</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>32</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>33</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>34</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>35</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>36</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>37</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>38</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>39</label><input type="number" class="number-input group-4"></div>
+                <div class="input-group"><label>40</label><input type="number" class="number-input group-4"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-4">0</span></div>
+            </div>
+            <div class="column-5">
+                <div class="input-group"><label>41</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>42</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>43</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>44</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>45</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>46</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>47</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>48</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>49</label><input type="number" class="number-input group-5"></div>
+                <div class="input-group"><label>50</label><input type="number" class="number-input group-5"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-5">0</span></div>
+            </div>
+            <div class="column-6">
+                <div class="input-group"><label>51</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>52</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>53</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>54</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>55</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>56</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>57</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>58</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>59</label><input type="number" class="number-input group-6"></div>
+                <div class="input-group"><label>60</label><input type="number" class="number-input group-6"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-6">0</span></div>
+            </div>
+            <div class="column-7">
+                <div class="input-group"><label>61</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>62</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>63</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>64</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>65</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>66</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>67</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>68</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>69</label><input type="number" class="number-input group-7"></div>
+                <div class="input-group"><label>70</label><input type="number" class="number-input group-7"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-7">0</span></div>
+            </div>
+            <div class="column-8">
+                <div class="input-group"><label>71</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>72</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>73</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>74</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>75</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>76</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>77</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>78</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>79</label><input type="number" class="number-input group-8"></div>
+                <div class="input-group"><label>80</label><input type="number" class="number-input group-8"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-8">0</span></div>
+            </div>
+            <div class="column-9">
+                <div class="input-group"><label>81</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>82</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>83</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>84</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>85</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>86</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>87</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>88</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>89</label><input type="number" class="number-input group-9"></div>
+                <div class="input-group"><label>90</label><input type="number" class="number-input group-9"></div>
+                <div class="subtotal-row"><span>รวมย่อย</span><span id="subtotal-9">0</span></div>
+            </div>
+        </div>
 
-    <button onclick="updateTotals()">คำนวณผลรวม</button>
-    <button onclick="resetAll()">รีเซ็ตทั้งหมด</button>
+        <div class="buttons-container">
+            <button id="calculate-btn" onclick="updateTotals()">คำนวณผลรวม</button>
+            <button id="reset-btn" onclick="resetAll()">รีเซ็ตทั้งหมด</button>
+        </div>
 
-    <p>ผลรวมทั้งหมด: <span id="total-all-cell">0</span></p>
-    <p>จำนวนเงิน = (<span id="grand-total-display-3-3">0</span> x 3.3) = <span id="final-amount-3-3">0</span></p>
+        <div class="results-section">
+            <p>ผลรวมทั้งหมด: <span id="total-all-cell">0</span></p>
+            <p>จำนวนเงิน = (<span id="grand-total-display-3-3">0</span> x 3.3) = <span id="final-amount-3-3">0</span></p>
 
-    <hr>
-    <h3>คำนวณจำนวนกล่อง</h3>
-    <label for="box-count-input">จำนวนกล่อง:</label>
-    <input type="number" id="box-count-input" value="0" oninput="updateBoxCalculation()">
-    <p>จำนวนเงิน= (<span id="box-count-display">0</span> x 46) = <span id="final-amount-46">0</span></p>
+            <hr>
+            <h3>คำนวณจำนวนกล่อง</h3>
+            <div class="box-calculation">
+                <label for="box-count-input">จำนวนกล่อง:</label>
+                <input type="number" id="box-count-input" value="0" oninput="updateBoxCalculation()">
+            </div>
+            <p>จำนวนเงิน= (<span id="box-count-display">0</span> x 46) = <span id="final-amount-46">0</span></p>
 
-    <hr>
-    <h3>รวมทั้งสิ้น</h3>
-    <p>รวมทั้งสิ้น = <span id="final-amount-3-3-sum">0</span> + <span id="final-amount-46-sum">0</span> = <span id="grand-total-sum">0</span></p>
+            <hr>
+            <h3>รวมทั้งสิ้น</h3>
+            <p>รวมทั้งสิ้น = <span id="final-amount-3-3-sum">0</span> + <span id="final-amount-46-sum">0</span> = <span id="grand-total-sum">0</span></p>
+        </div>
+    </div>
 
     <script>
-      // Function to display the current date
       function displayCurrentDate() {
         var date = new Date();
         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -300,17 +347,17 @@
         document.getElementById("final-amount-3-3-sum").textContent = finalAmount33.toFixed(2);
         return finalAmount33;
       }
-      
+
       function updateBoxCalculation() {
         var boxCountInput = document.getElementById("box-count-input");
         var boxCount = parseFloat(boxCountInput.value) || 0;
-        
+
         var finalAmount46 = boxCount * 46;
         document.getElementById("box-count-display").textContent = boxCount;
         document.getElementById("final-amount-46").textContent = finalAmount46.toFixed(2);
-        
+
         document.getElementById("final-amount-46-sum").textContent = finalAmount46.toFixed(2);
-        
+
         updateFinalSum();
       }
 
@@ -331,31 +378,43 @@
         calculateSubtotal('group-7', 'subtotal-7');
         calculateSubtotal('group-8', 'subtotal-8');
         calculateSubtotal('group-9', 'subtotal-9');
-        
+
         var grandTotal = calculateGrandTotal();
-        
+
         calculateFromGrandTotal(grandTotal);
-        
+
         updateBoxCalculation();
       }
 
-      // โค้ดสำหรับรีเซ็ตทั้งหมด
       function resetAll() {
         var inputs = document.querySelectorAll("input[type='number']");
         inputs.forEach(function(input) {
-          input.value = ""; // ลบค่าทั้งหมดในช่อง
+          input.value = "";
         });
-        document.getElementById("box-count-input").value = "0"; // รีเซ็ตช่องจำนวนกล่อง
-        updateTotals(); // คำนวณใหม่เพื่อให้ค่าทั้งหมดเป็นศูนย์
+        document.getElementById("box-count-input").value = "0";
+        updateTotals();
       }
 
-      // โค้ดสำหรับเลื่อนไปยังช่องถัดไปเมื่อกด Enter
-      var inputs = document.querySelectorAll(".number-input");
+      var inputs = document.querySelectorAll("input.number-input");
+      var numRows = 10;
+
       inputs.forEach(function(input, index) {
         input.addEventListener("keydown", function(event) {
           if (event.key === "Enter" || event.keyCode === 13) {
-            event.preventDefault(); 
-            var nextIndex = index + 1;
+            event.preventDefault();
+
+            var currentRow = index % numRows;
+            var currentCol = Math.floor(index / numRows);
+
+            var nextRow = (currentRow + 1) % numRows;
+            var nextCol = currentCol;
+
+            if (nextRow === 0) {
+              nextCol = (currentCol + 1) % 9;
+            }
+
+            var nextIndex = nextRow + (nextCol * numRows);
+
             if (nextIndex < inputs.length) {
               inputs[nextIndex].focus();
             } else {
@@ -364,8 +423,7 @@
           }
         });
       });
-      
-      // เรียกใช้ฟังก์ชันแสดงวันที่เมื่อหน้าเว็บโหลดเสร็จ
+
       window.onload = displayCurrentDate;
     </script>
 </body>
