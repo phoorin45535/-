@@ -6,23 +6,24 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+        }
+        #date-container {
             text-align: center;
         }
         #current-date {
-            font-size: 3em; /* ทำให้ตัวหนังสือใหญ่ขึ้น */
+            font-size: 3em;
             font-weight: bold;
             color: #4CAF50;
             margin: 20px 0;
         }
-        table {
-            margin: 0 auto;
-        }
     </style>
 </head>
 <body>
-    <p>วันที่ปัจจุบัน: <span id="current-date"></span></p>
+    <div id="date-container">
+        <p>วันที่ปัจจุบัน: <span id="current-date"></span></p>
+    </div>
 
-    <h1>ใบส่งของเซกู</h1>
+    <h1>โปรแกรมรวมตัวเลข</h1>
 
     <table border="1">
       <tr>
@@ -299,17 +300,17 @@
         document.getElementById("final-amount-3-3-sum").textContent = finalAmount33.toFixed(2);
         return finalAmount33;
       }
-
+      
       function updateBoxCalculation() {
         var boxCountInput = document.getElementById("box-count-input");
         var boxCount = parseFloat(boxCountInput.value) || 0;
-
+        
         var finalAmount46 = boxCount * 46;
         document.getElementById("box-count-display").textContent = boxCount;
         document.getElementById("final-amount-46").textContent = finalAmount46.toFixed(2);
-
+        
         document.getElementById("final-amount-46-sum").textContent = finalAmount46.toFixed(2);
-
+        
         updateFinalSum();
       }
 
@@ -330,11 +331,11 @@
         calculateSubtotal('group-7', 'subtotal-7');
         calculateSubtotal('group-8', 'subtotal-8');
         calculateSubtotal('group-9', 'subtotal-9');
-
+        
         var grandTotal = calculateGrandTotal();
-
+        
         calculateFromGrandTotal(grandTotal);
-
+        
         updateBoxCalculation();
       }
 
@@ -353,7 +354,7 @@
       inputs.forEach(function(input, index) {
         input.addEventListener("keydown", function(event) {
           if (event.key === "Enter" || event.keyCode === 13) {
-            event.preventDefault();
+            event.preventDefault(); 
             var nextIndex = index + 1;
             if (nextIndex < inputs.length) {
               inputs[nextIndex].focus();
@@ -363,7 +364,7 @@
           }
         });
       });
-
+      
       // เรียกใช้ฟังก์ชันแสดงวันที่เมื่อหน้าเว็บโหลดเสร็จ
       window.onload = displayCurrentDate;
     </script>
