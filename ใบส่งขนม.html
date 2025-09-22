@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>โปรแกรมรวมตัวเลข</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #current-date {
+            font-size: 3em; /* ทำให้ตัวหนังสือใหญ่ขึ้น */
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 20px 0;
+        }
+        table {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
+    <p>วันที่ปัจจุบัน: <span id="current-date"></span></p>
 
-    <h1>โปรแกรมรวมตัวเลข</h1>
+    <h1>ใบส่งของเซกู</h1>
 
     <table border="1">
       <tr>
@@ -232,6 +248,8 @@
     </table>
 
     <button onclick="updateTotals()">คำนวณผลรวม</button>
+    <button onclick="resetAll()">รีเซ็ตทั้งหมด</button>
+
     <p>ผลรวมทั้งหมด: <span id="total-all-cell">0</span></p>
     <p>จำนวนเงิน = (<span id="grand-total-display-3-3">0</span> x 3.3) = <span id="final-amount-3-3">0</span></p>
 
@@ -243,9 +261,16 @@
 
     <hr>
     <h3>รวมทั้งสิ้น</h3>
-    <p>รวมทั้งสิ้น = <span id="total-all-cell-sum">0</span> + <span id="final-amount-46-sum">0</span> = <span id="grand-total-sum">0</span></p>
+    <p>รวมทั้งสิ้น = <span id="final-amount-3-3-sum">0</span> + <span id="final-amount-46-sum">0</span> = <span id="grand-total-sum">0</span></p>
 
     <script>
+      // Function to display the current date
+      function displayCurrentDate() {
+        var date = new Date();
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById("current-date").textContent = date.toLocaleDateString('th-TH', options);
+      }
+
       function calculateSubtotal(groupClass, totalId) {
         var inputs = document.getElementsByClassName(groupClass);
         var subtotal = 0;
@@ -265,13 +290,14 @@
         }
         document.getElementById("total-all-cell").textContent = grandTotal;
         document.getElementById("grand-total-display-3-3").textContent = grandTotal;
-        document.getElementById("total-all-cell-sum").textContent = grandTotal;
         return grandTotal;
       }
 
       function calculateFromGrandTotal(grandTotal) {
         var finalAmount33 = grandTotal * 3.3;
         document.getElementById("final-amount-3-3").textContent = finalAmount33.toFixed(2);
+        document.getElementById("final-amount-3-3-sum").textContent = finalAmount33.toFixed(2);
+        return finalAmount33;
       }
 
       function updateBoxCalculation() {
@@ -284,19 +310,17 @@
 
         document.getElementById("final-amount-46-sum").textContent = finalAmount46.toFixed(2);
 
-        // Recalculate and update the final sum
         updateFinalSum();
       }
 
       function updateFinalSum() {
-        var grandTotal = parseFloat(document.getElementById("total-all-cell-sum").textContent) || 0;
-        var finalAmount46 = parseFloat(document.getElementById("final-amount-46-sum").textContent) || 0;
-        var grandTotalSum = grandTotal + finalAmount46;
+        var finalAmount33 = parseFloat(document.getElementById("final-amount-3-3").textContent) || 0;
+        var finalAmount46 = parseFloat(document.getElementById("final-amount-46").textContent) || 0;
+        var grandTotalSum = finalAmount33 + finalAmount46;
         document.getElementById("grand-total-sum").textContent = grandTotalSum.toFixed(2);
       }
 
       function updateTotals() {
-        // Calculate subtotals for each group
         calculateSubtotal('group-1', 'subtotal-1');
         calculateSubtotal('group-2', 'subtotal-2');
         calculateSubtotal('group-3', 'subtotal-3');
@@ -307,15 +331,41 @@
         calculateSubtotal('group-8', 'subtotal-8');
         calculateSubtotal('group-9', 'subtotal-9');
 
-        // Calculate the grand total
         var grandTotal = calculateGrandTotal();
 
-        // Calculate the amount for the grand total multiplied by 3.3
         calculateFromGrandTotal(grandTotal);
 
-        // Also update the box calculation and final sum
         updateBoxCalculation();
       }
+
+      // โค้ดสำหรับรีเซ็ตทั้งหมด
+      function resetAll() {
+        var inputs = document.querySelectorAll("input[type='number']");
+        inputs.forEach(function(input) {
+          input.value = ""; // ลบค่าทั้งหมดในช่อง
+        });
+        document.getElementById("box-count-input").value = "0"; // รีเซ็ตช่องจำนวนกล่อง
+        updateTotals(); // คำนวณใหม่เพื่อให้ค่าทั้งหมดเป็นศูนย์
+      }
+
+      // โค้ดสำหรับเลื่อนไปยังช่องถัดไปเมื่อกด Enter
+      var inputs = document.querySelectorAll(".number-input");
+      inputs.forEach(function(input, index) {
+        input.addEventListener("keydown", function(event) {
+          if (event.key === "Enter" || event.keyCode === 13) {
+            event.preventDefault();
+            var nextIndex = index + 1;
+            if (nextIndex < inputs.length) {
+              inputs[nextIndex].focus();
+            } else {
+              inputs[0].focus();
+            }
+          }
+        });
+      });
+
+      // เรียกใช้ฟังก์ชันแสดงวันที่เมื่อหน้าเว็บโหลดเสร็จ
+      window.onload = displayCurrentDate;
     </script>
 </body>
 </html>
