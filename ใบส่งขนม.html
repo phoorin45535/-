@@ -83,10 +83,9 @@
         .buttons-container {
             text-align: center;
             margin-top: 20px;
-            /* ใช้ Flexbox เพื่อจัดเรียงปุ่มและเพิ่มระยะห่าง */
             display: flex;
-            justify-content: center; /* จัดให้อยู่กึ่งกลาง */
-            gap: 20px; /* เพิ่มช่องว่างระหว่างปุ่ม 20px */
+            justify-content: center;
+            gap: 20px;
         }
 
         button {
@@ -99,7 +98,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* กำหนดสีของปุ่ม "คำนวณผลรวม" */
         #calculate-btn {
             background-color: #007BFF;
         }
@@ -108,7 +106,6 @@
             background-color: #0056b3;
         }
 
-        /* กำหนดสีของปุ่ม "รีเซ็ตทั้งหมด" */
         #reset-btn {
             background-color: #dc3545; /* สีแดง */
         }
@@ -151,7 +148,26 @@
             font-size: 1em;
         }
 
-        /* Responsive grid for input fields */
+        /* โค้ดที่เพิ่มเข้ามาเพื่อจัดการแสดงผลบนมือถือ */
+        .grid-container {
+            display: flex;
+            flex-direction: column; /* จัดเรียงองค์ประกอบในแนวตั้ง */
+        }
+
+        .grid-container .column-1,
+        .grid-container .column-2,
+        .grid-container .column-3,
+        .grid-container .column-4,
+        .grid-container .column-5,
+        .grid-container .column-6,
+        .grid-container .column-7,
+        .grid-container .column-8,
+        .grid-container .column-9 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Responsive grid for larger screens (optional, but good practice) */
         @media (min-width: 601px) {
             .grid-container {
                 display: grid;
@@ -395,33 +411,27 @@
         updateTotals();
       }
 
+      // โค้ดสำหรับเลื่อนเคอร์เซอร์เมื่อกด Enter
       var inputs = document.querySelectorAll("input.number-input");
-      var numRows = 10;
 
-      inputs.forEach(function(input, index) {
-        input.addEventListener("keydown", function(event) {
-          if (event.key === "Enter" || event.keyCode === 13) {
-            event.preventDefault();
+      // อ้างอิงถึง input ทั้งหมดที่เรียงตามลำดับใน HTML
+      var allInputs = Array.from(document.querySelectorAll('.input-group input'));
 
-            var currentRow = index % numRows;
-            var currentCol = Math.floor(index / numRows);
-
-            var nextRow = (currentRow + 1) % numRows;
-            var nextCol = currentCol;
-
-            if (nextRow === 0) {
-              nextCol = (currentCol + 1) % 9;
-            }
-
-            var nextIndex = nextRow + (nextCol * numRows);
-
-            if (nextIndex < inputs.length) {
-              inputs[nextIndex].focus();
-            } else {
-              inputs[0].focus();
-            }
-          }
-        });
+      allInputs.forEach(function(input, index) {
+          input.addEventListener("keydown", function(event) {
+              if (event.key === "Enter" || event.keyCode === 13) {
+                  event.preventDefault();
+                  // หาช่องถัดไปตามลำดับในอาร์เรย์
+                  var nextIndex = index + 1;
+                  // ถ้ามีช่องถัดไป ให้ focus
+                  if (nextIndex < allInputs.length) {
+                      allInputs[nextIndex].focus();
+                  } else {
+                      // ถ้าถึงช่องสุดท้าย ให้วนกลับไปช่องแรก
+                      allInputs[0].focus();
+                  }
+              }
+          });
       });
 
       window.onload = displayCurrentDate;
